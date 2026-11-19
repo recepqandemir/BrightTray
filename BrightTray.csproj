@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <!-- WPF + WinForms birlikte kullanıldığında tür çakışmasını önlemek için kapalı -->
+    <ImplicitUsings>disable</ImplicitUsings>
+    <RootNamespace>BrightTray</RootNamespace>
+    <AssemblyName>BrightTray</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>app.ico</ApplicationIcon>
+    <SatelliteResourceLanguages>en;tr</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <!-- Sürüm: tek kaynak burası (SemVer: MAJOR.MINOR.PATCH). Uygulamadaki sürüm metni, dosya özellikleri
+       ve yayın çıktısı buradan beslenir. Geçici olarak ezmek için: dotnet publish -p:Version=1.2.3 -->
+  <PropertyGroup>
+    <Version>0.6.2</Version>
+    <Product>BrightTray</Product>
+    <Company>BrightTray</Company>
+    <Copyright>Copyright © 2026</Copyright>
+    <!-- Informational sürüme "+commit" eki eklenmesin -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+  </PropertyGroup>
+
+  <!-- Proje klasörünün içine eski bir kopya (örn. _BrightTray_v1.0) konmuşsa aynı dosyalar iki kez
+       derlenir ve "already contains a definition" hataları çıkar. "_" ile başlayan klasörleri yok say. -->
+  <PropertyGroup>
+    <DefaultItemExcludes>$(DefaultItemExcludes);_*/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="8.0.0" />
+  </ItemGroup>
+
+</Project>
