@@ -26,6 +26,12 @@ C# / WPF (.NET 8) ile yazıldı.
 
 ## Görünüm
 
+| Parlaklık paneli | Ayarlar |
+| --- | --- |
+| ![Parlaklık paneli](docs/BrightTray_3.png) | ![Ayarlar penceresi](docs/BrightTray_2.png) |
+
+![Tepsi menüsü](docs/BrightTray_1.png)
+
 Koyu tema, turuncu vurgu. Tüm renkler ve kontrol stilleri `UI/Theme.xaml` içindedir; vurgu rengini
 değiştirmek için `AccentBrush`, `AccentHoverBrush`, `AccentPressedBrush` ve `AccentSoftBrush` değerlerini
 güncellemek yeterlidir (tepsi simgesinin rengi `App.xaml.cs` içindeki `CreateTrayIcon` yönteminde).
