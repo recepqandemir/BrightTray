@@ -1,5 +1,9 @@
 # BrightTray
 
+[![Release](https://img.shields.io/github/v/release/recepqandemir/BrightTray)](https://github.com/recepqandemir/BrightTray/releases)
+[![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
+[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-blue.svg)](#indirme)
+
 Twinkle Tray benzeri, sistem tepsisinden çalışan bir Windows parlaklık denetleyicisi.
 C# / WPF (.NET 8) ile yazıldı.
 
@@ -25,6 +29,14 @@ C# / WPF (.NET 8) ile yazıldı.
 Koyu tema, turuncu vurgu. Tüm renkler ve kontrol stilleri `UI/Theme.xaml` içindedir; vurgu rengini
 değiştirmek için `AccentBrush`, `AccentHoverBrush`, `AccentPressedBrush` ve `AccentSoftBrush` değerlerini
 güncellemek yeterlidir (tepsi simgesinin rengi `App.xaml.cs` içindeki `CreateTrayIcon` yönteminde).
+
+## İndirme
+
+Hazır sürümü [Releases](https://github.com/recepqandemir/BrightTray/releases) sayfasından indirebilirsin:
+
+1. `BrightTray.exe` dosyasını indir.
+2. İlk çalıştırma için [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) (x64) kurulu olmalıdır.
+3. `BrightTray.exe` dosyasını çalıştır; simge sistem tepsisinde görünür.
 
 ## Derleme ve çalıştırma (Windows)
 
@@ -144,3 +156,7 @@ Ayarlar'dan “son parlaklığı geri yükle” seçeneğini kapat.
 | `Services/SchedulerService.cs` | Saate göre otomatik parlaklık |
 | `UI/FlyoutWindow.xaml` | Tepsi paneli (monitör başına slider) |
 | `UI/SettingsWindow.xaml` | Kısayol, zamanlama ve başlangıç ayarları |
+
+## Lisans
+
+[MIT](LICENSE) © 2026 recepqandemir
