@@ -1,9 +1,5 @@
 # BrightTray
 
-[![Release](https://img.shields.io/github/v/release/recepqandemir/BrightTray)](https://github.com/recepqandemir/BrightTray/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-orange.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%2010%2F11-blue.svg)](#indirme)
-
 Twinkle Tray benzeri, sistem tepsisinden çalışan bir Windows parlaklık denetleyicisi.
 C# / WPF (.NET 8) ile yazıldı.
 
@@ -26,23 +22,9 @@ C# / WPF (.NET 8) ile yazıldı.
 
 ## Görünüm
 
-| Parlaklık paneli | Ayarlar |
-| --- | --- |
-| ![Parlaklık paneli](docs/BrightTray_3.png) | ![Ayarlar penceresi](docs/BrightTray_2.png) |
-
-![Tepsi menüsü](docs/BrightTray_1.png)
-
 Koyu tema, turuncu vurgu. Tüm renkler ve kontrol stilleri `UI/Theme.xaml` içindedir; vurgu rengini
 değiştirmek için `AccentBrush`, `AccentHoverBrush`, `AccentPressedBrush` ve `AccentSoftBrush` değerlerini
 güncellemek yeterlidir (tepsi simgesinin rengi `App.xaml.cs` içindeki `CreateTrayIcon` yönteminde).
-
-## İndirme
-
-Hazır sürümü [Releases](https://github.com/recepqandemir/BrightTray/releases) sayfasından indirebilirsin:
-
-1. `BrightTray.exe` dosyasını indir.
-2. İlk çalıştırma için [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) (x64) kurulu olmalıdır.
-3. `BrightTray.exe` dosyasını çalıştır; simge sistem tepsisinde görünür.
 
 ## Derleme ve çalıştırma (Windows)
 
@@ -120,6 +102,13 @@ baştan kurduğu için eski değeri bilmiyordu. Şimdi:
 Monitörün kendi tuşlarıyla yaptığın parlaklık değişikliği bir sonraki yenilemede ezilmesin istersen
 Ayarlar'dan “son parlaklığı geri yükle” seçeneğini kapat.
 
+## Bellek kullanımı
+
+Tepsi uygulaması boştayken belleği Windows'a iade eder; Görev Yöneticisi'ndeki değer çoğunlukla panel
+açılıp kapandıktan birkaç saniye sonra düşer. En düşük değer için `dotnet publish` komutunu `-r win-x64`
+ile çalıştırın (ReadyToRun etkinleşir). WPF ve WinForms çalışma zamanı birkaç MB'lık bir taban oluşturur;
+bunun altına inmek için arayüzün WPF'siz yeniden yazılması gerekir.
+
 ## Sorun giderme
 
 - **Simgeye tıklayınca panel görünmüyor:** Uygulamayı yönetici olarak çalıştırmak gerekmez ve önerilmez
@@ -162,7 +151,3 @@ Ayarlar'dan “son parlaklığı geri yükle” seçeneğini kapat.
 | `Services/SchedulerService.cs` | Saate göre otomatik parlaklık |
 | `UI/FlyoutWindow.xaml` | Tepsi paneli (monitör başına slider) |
 | `UI/SettingsWindow.xaml` | Kısayol, zamanlama ve başlangıç ayarları |
-
-## Lisans
-
-[MIT](LICENSE) © 2026 recepqandemir

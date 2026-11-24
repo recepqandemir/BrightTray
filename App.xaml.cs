@@ -1,4 +1,5 @@
 using System;
+using System.Runtime;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,6 +37,53 @@ public partial class App : System.Windows.Application
     private bool _refreshing;
     private bool _refreshAgain;
     private bool _firstRefreshDone;
+
+    // ---------------------------------------------------------------- bellek
+
+    private DispatcherTimer? _trimTimer;
+
+    /// <summary>
+    /// Etkinlik (panel kapanması, ekran taraması, ayarlar) bittikten birkaç saniye sonra belleği iade eder:
+    /// çöp toplama + çalışma kümesini boşaltma. Uygulama çoğu zaman boşta durduğu için tepsi uygulamasının
+    /// Görev Yöneticisi'ndeki bellek kullanımı belirgin düşer.
+    /// </summary>
+    private void ScheduleTrim()
+    {
+        if (_trimTimer == null)
+        {
+            _trimTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(6) };
+            _trimTimer.Tick += (_, _) =>
+            {
+                _trimTimer.Stop();
+
+                // Panel açıkken dokunma; kapanınca yeniden planlanır.
+                if (_flyout != null)
+                    return;
+
+                TrimMemory();
+            };
+        }
+
+        _trimTimer.Stop();
+        _trimTimer.Start();
+    }
+
+    private static void TrimMemory()
+    {
+        try
+        {
+            GCSettings.LargeObjectHeapCompactionMode = GCLargeObjectHeapCompactionMode.CompactOnce;
+            GC.Collect(2, GCCollectionMode.Forced, blocking: true, compacting: true);
+            GC.WaitForPendingFinalizers();
+            GC.Collect(2, GCCollectionMode.Forced, blocking: true, compacting: true);
+
+            NativeMethods.SetProcessWorkingSetSize(NativeMethods.GetCurrentProcess(), new IntPtr(-1), new IntPtr(-1));
+        }
+        catch
+        {
+            // Bellek iadesi isteğe bağlı bir iyileştirme; başarısız olursa sorun değil.
+        }
+    }
 
     // ---------------------------------------------------------------- tanılama izi
 
@@ -147,6 +195,9 @@ public partial class App : System.Windows.Application
     {
         base.OnStartup(e);
 
+        // Küçük bir panel için GPU/D3D gerekmiyor; yazılım çizimi sürücü DLL'lerini ve GPU belleğini yüklemez.
+        System.Windows.Media.RenderOptions.ProcessRenderMode = System.Windows.Interop.RenderMode.SoftwareOnly;
+
         DispatcherUnhandledException += (_, args) =>
         {
             ReportUnexpected(args.Exception);
@@ -240,6 +291,8 @@ public partial class App : System.Windows.Application
             _firstRefreshDone = true;
             _scheduler?.Configure(_settings, applyNow: _settings.ApplyScheduleOnStartup);
         }
+
+        ScheduleTrim();
     }
 
     private void OnSystemChanged(object? sender, EventArgs e) =>
@@ -334,6 +387,8 @@ public partial class App : System.Windows.Application
         var window = new SettingsWindow(_settings.Clone(), _monitors.Monitors);
         if (window.ShowDialog() == true && window.Result is { } updated)
             ApplySettings(updated);
+
+        ScheduleTrim();
     }
 
     private void ApplySettings(AppSettings updated)
@@ -479,6 +534,7 @@ public partial class App : System.Windows.Application
             {
                 _flyout = null;
                 _flyoutClosedAtUtc = DateTime.UtcNow;
+                ScheduleTrim();
             };
 
             _flyout.Show();

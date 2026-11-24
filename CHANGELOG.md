@@ -4,6 +4,14 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/), sürümleme [Se
 
 ## [Yayınlanmamış]
 
+## [0.6.3] - 2026-11-24
+
+### Değişti
+- Bellek kullanımı azaltıldı. Uygulama boştayken (panel kapandıktan, ekran taraması veya ayarlar bittikten ~6 sn sonra) çöp toplama yapılır ve çalışma kümesi Windows'a iade edilir.
+- WPF çizimi yazılıma alındı (`RenderMode.SoftwareOnly`): GPU/D3D sürücü bileşenleri yüklenmez.
+- Çalışma zamanı ayarları: arka plan GC kapalı, dinamik PGO kapalı, `GCConserveMemory` açık.
+- Yayınlarken (`-r win-x64`) ReadyToRun etkin: JIT için ayrılan bellek ve açılış süresi azalır.
+
 ## [0.6.2] - 2026-11-17
 
 ### Eklendi

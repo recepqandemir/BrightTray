@@ -18,7 +18,7 @@
   <!-- Sürüm: tek kaynak burası (SemVer: MAJOR.MINOR.PATCH). Uygulamadaki sürüm metni, dosya özellikleri
        ve yayın çıktısı buradan beslenir. Geçici olarak ezmek için: dotnet publish -p:Version=1.2.3 -->
   <PropertyGroup>
-    <Version>0.6.2</Version>
+    <Version>0.6.3</Version>
     <Product>BrightTray</Product>
     <Company>BrightTray</Company>
     <Copyright>Copyright © 2026</Copyright>
@@ -30,6 +30,23 @@
        derlenir ve "already contains a definition" hataları çıkar. "_" ile başlayan klasörleri yok say. -->
   <PropertyGroup>
     <DefaultItemExcludes>$(DefaultItemExcludes);_*/**</DefaultItemExcludes>
+  </PropertyGroup>
+
+  <!-- Bellek: tepsi uygulaması çoğu zaman boşta durur; arka plan GC iş parçacığı, dinamik PGO ve
+       gereksiz yığın büyümesi kapatılır. -->
+  <PropertyGroup>
+    <ServerGarbageCollector>false</ServerGarbageCollector>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <TieredPGO>false</TieredPGO>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <RuntimeHostConfigurationOption Include="System.GC.ConserveMemory" Value="7" />
+  </ItemGroup>
+
+  <!-- Yayınlarken (-r win-x64) önceden derlenmiş kod: JIT için ayrılan bellek ve açılış süresi azalır. -->
+  <PropertyGroup Condition="'$(RuntimeIdentifier)' != ''">
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <ItemGroup>
